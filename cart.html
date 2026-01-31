@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - ATELIER</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">ATELIER</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Shop</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="cart-icon" onclick="window.location.href='cart.html'">
+                🛒
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Shopping Cart</h1>
+            <p>Review your items before checkout</p>
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section class="cart-section">
+        <div class="container">
+            <div class="cart-items" id="cartItems"></div>
+            <div class="cart-summary" id="cartSummary"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>ATELIER</h3>
+                    <p>Curating beautiful objects for mindful living.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Shop</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <p>Email: hello@atelier.com</p>
+                    <p>Phone: (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ATELIER. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="products-data.js"></script>
+    <script src="cart.js"></script>
+    <script>
+        function renderCart() {
+            const cart = getCart();
+            const cartItemsEl = document.getElementById('cartItems');
+            const cartSummaryEl = document.getElementById('cartSummary');
+
+            if (cart.length === 0) {
+                cartItemsEl.innerHTML = `
+                    <div class="empty-state">
+                        <h2>Your cart is empty</h2>
+                        <p>Add some products to get started</p>
+                        <button class="btn" onclick="window.location.href='products.html'">Continue Shopping</button>
+                    </div>
+                `;
+                cartSummaryEl.innerHTML = '';
+                return;
+            }
+
+            const itemsHtml = cart.map((item, index) => `
+                <div class="cart-item">
+                    <div class="cart-item-image">${item.emoji}</div>
+                    <div class="cart-item-info">
+                        <h3>${item.name}</h3>
+                        <p class="cart-item-category">${item.category}</p>
+                        <p class="cart-item-price">$${item.price} each</p>
+                    </div>
+                    <div class="cart-item-quantity">
+                        <button class="quantity-btn" onclick="updateQuantity(${index}, ${item.quantity - 1})">-</button>
+                        <span class="quantity-display">${item.quantity}</span>
+                        <button class="quantity-btn" onclick="updateQuantity(${index}, ${item.quantity + 1})">+</button>
+                    </div>
+                    <div class="cart-item-total">
+                        <div class="product-price">$${item.price * item.quantity}</div>
+                        <button class="btn-remove" onclick="removeItem(${index})">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = subtotal > 0 ? 15 : 0;
+            const total = subtotal + shipping;
+
+            const summaryHtml = `
+                <h3>Order Summary</h3>
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>$${subtotal}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <span>$${shipping}</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span>$${total}</span>
+                </div>
+                <button class="btn" style="width: 100%; margin-top: 2rem;" onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
+                <button class="btn btn-secondary" style="width: 100%; margin-top: 1rem;" onclick="window.location.href='products.html'">Continue Shopping</button>
+            `;
+
+            cartItemsEl.innerHTML = itemsHtml;
+            cartSummaryEl.innerHTML = summaryHtml;
+        }
+
+        function updateQuantity(index, newQuantity) {
+            if (newQuantity < 1) {
+                removeItem(index);
+            } else {
+                updateCartQuantity(index, newQuantity);
+                renderCart();
+                updateCartCount();
+            }
+        }
+
+        function removeItem(index) {
+            removeFromCart(index);
+            renderCart();
+            updateCartCount();
+        }
+
+        renderCart();
+        updateCartCount();
+    </script>
+</body>
+</html>

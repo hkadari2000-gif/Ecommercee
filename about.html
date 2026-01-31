@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - ATELIER</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">ATELIER</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Shop</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="cart-icon" onclick="window.location.href='cart.html'">
+                🛒
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>About ATELIER</h1>
+            <p>Crafting spaces with intention and beauty</p>
+        </div>
+    </section>
+
+    <!-- About Content -->
+    <section class="about-content">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2>Our Story</h2>
+                    <p>ATELIER was born from a simple belief: the objects we surround ourselves with shape our daily experience. Founded in 2020, we set out to curate a collection that celebrates craftsmanship, sustainability, and timeless design.</p>
+                    <p>Every piece in our collection tells a story. From the artisan who crafted it to the materials chosen with care, we believe in transparency and quality above all else.</p>
+                </div>
+                <div class="about-image">
+                    <div class="about-emoji">🏛️</div>
+                </div>
+            </div>
+
+            <div class="values-section">
+                <h2 class="section-title">Our Values</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">🌿</div>
+                        <h3>Sustainability</h3>
+                        <p>We partner with makers who prioritize eco-friendly practices and sustainable materials.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">✋</div>
+                        <h3>Craftsmanship</h3>
+                        <p>Each product is carefully crafted by skilled artisans who take pride in their work.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">💎</div>
+                        <h3>Quality</h3>
+                        <p>We select only items built to last, combining beauty with exceptional functionality.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">🤝</div>
+                        <h3>Community</h3>
+                        <p>Supporting independent makers and building lasting relationships with our customers.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-section">
+                <h2 class="section-title">Meet Our Team</h2>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <div class="team-photo">👩‍💼</div>
+                        <h3>Sarah Chen</h3>
+                        <p class="team-role">Founder & Creative Director</p>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-photo">👨‍💼</div>
+                        <h3>Marcus Rodriguez</h3>
+                        <p class="team-role">Head of Curation</p>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-photo">👩‍💻</div>
+                        <h3>Emma Thompson</h3>
+                        <p class="team-role">Customer Experience Lead</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>ATELIER</h3>
+                    <p>Curating beautiful objects for mindful living.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Shop</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <p>Email: hello@atelier.com</p>
+                    <p>Phone: (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ATELIER. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="cart.js"></script>
+    <script>
+        updateCartCount();
+    </script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail - ATELIER</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">ATELIER</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active">Shop</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="cart-icon" onclick="window.location.href='cart.html'">
+                🛒
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Product Detail -->
+    <section class="product-detail-section">
+        <div class="container">
+            <div class="product-detail" id="productDetailContent">
+                <!-- Content will be loaded by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-section">
+        <div class="container">
+            <h2 class="section-title">You May Also Like</h2>
+            <div class="products-grid" id="relatedProducts"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>ATELIER</h3>
+                    <p>Curating beautiful objects for mindful living.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Shop</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <p>Email: hello@atelier.com</p>
+                    <p>Phone: (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ATELIER. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="products-data.js"></script>
+    <script src="cart.js"></script>
+    <script>
+        // Get product ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = parseInt(urlParams.get('id'));
+        const currentProduct = products.find(p => p.id === productId);
+
+        if (currentProduct) {
+            // Render product detail
+            const html = `
+                <div class="detail-image">${currentProduct.emoji}</div>
+                <div class="detail-info">
+                    <div class="detail-category">${currentProduct.category}</div>
+                    <h1>${currentProduct.name}</h1>
+                    <div class="detail-price">$${currentProduct.price}</div>
+                    <div class="detail-description">
+                        <p>Handcrafted with meticulous attention to detail, this ${currentProduct.name.toLowerCase()} represents the perfect blend of form and function. Each piece is carefully selected to bring warmth and character to your space.</p>
+                        <p>Made from premium materials and designed to last, this item reflects our commitment to quality and sustainable practices.</p>
+                        <ul class="product-features">
+                            <li>Handcrafted by skilled artisans</li>
+                            <li>Premium quality materials</li>
+                            <li>Sustainable production</li>
+                            <li>Ships within 2-3 business days</li>
+                        </ul>
+                    </div>
+                    <div class="quantity-selector">
+                        <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                        <input type="number" class="quantity-input" id="quantity" value="1" min="1">
+                        <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCart()">Add to Cart</button>
+                    <button class="btn btn-secondary" onclick="window.location.href='products.html'" style="margin-top: 1rem;">Continue Shopping</button>
+                </div>
+            `;
+            document.getElementById('productDetailContent').innerHTML = html;
+
+            // Render related products
+            const related = products.filter(p => p.id !== productId && p.category === currentProduct.category).slice(0, 3);
+            const relatedHtml = related.map(product => `
+                <div class="product-card" onclick="window.location.href='product-detail.html?id=${product.id}'">
+                    <div class="product-image">${product.emoji}</div>
+                    <div class="product-info">
+                        <div class="product-category">${product.category}</div>
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">$${product.price}</div>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('relatedProducts').innerHTML = relatedHtml;
+        } else {
+            document.getElementById('productDetailContent').innerHTML = `
+                <div class="empty-state">
+                    <h2>Product Not Found</h2>
+                    <p>Sorry, we couldn't find the product you're looking for.</p>
+                    <button class="btn" onclick="window.location.href='products.html'">Back to Shop</button>
+                </div>
+            `;
+        }
+
+        function changeQuantity(delta) {
+            const input = document.getElementById('quantity');
+            const newValue = parseInt(input.value) + delta;
+            if (newValue >= 1) {
+                input.value = newValue;
+            }
+        }
+
+        function addToCart() {
+            const quantity = parseInt(document.getElementById('quantity').value);
+            addToCartFromDetail(currentProduct, quantity);
+            window.location.href = 'cart.html';
+        }
+
+        updateCartCount();
+    </script>
+</body>
+</html>
